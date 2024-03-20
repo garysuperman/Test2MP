@@ -20,14 +20,9 @@ ADoor::ADoor()
 void ADoor::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	if (OffAnim)
-	{
-		Mesh->PlayAnimation(OffAnim, false);
-	}
 }
 
-void ADoor::ToggleDoor()
+void ADoor::Interact()
 {
 	if (Toggled)
 	{

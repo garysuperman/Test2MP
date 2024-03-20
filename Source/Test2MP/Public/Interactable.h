@@ -28,4 +28,7 @@ protected:
 	bool Toggled;
 
 	virtual void BeginPlay() override;
+
+public:
+	virtual void Interact();
 };

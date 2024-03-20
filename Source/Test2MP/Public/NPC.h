@@ -21,5 +21,5 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-	void TalkToNPC();
+	virtual void Interact() override;
 };

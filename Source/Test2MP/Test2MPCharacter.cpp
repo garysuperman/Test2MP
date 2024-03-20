@@ -10,6 +10,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "Test2MP/Public/Interactable.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -81,6 +82,9 @@ void ATest2MPCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
 
+		// Interact
+		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Triggered, this, &ATest2MPCharacter::Interact);
+
 		// Moving
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ATest2MPCharacter::Move);
 
@@ -90,6 +94,33 @@ void ATest2MPCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	else
 	{
 		UE_LOG(LogTemplateCharacter, Error, TEXT("'%s' Failed to find an Enhanced Input component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
+	}
+}
+
+void ATest2MPCharacter::Interact()
+{
+	FVector Start = FollowCamera->GetComponentLocation();
+	FVector End = Start + GetControlRotation().Vector() * 500.0f;
+
+	FCollisionQueryParams QueryParams;
+	QueryParams.AddIgnoredActor(this);
+	FHitResult HitResult;
+	if(GetWorld()->LineTraceSingleByObjectType(HitResult, Start, End, FCollisionObjectQueryParams(), QueryParams))
+	{
+		if (AActor* Actor = HitResult.GetActor())
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Actor Hit: %s"), *Actor->GetName());
+			//temp call toggle
+			if(AInteractable* obj = Cast<AInteractable>(Actor))
+			{
+				obj->Interact();
+			}
+
+
+			//check for interact interface
+
+			//use if interact interface found
+		}
 	}
 }
 

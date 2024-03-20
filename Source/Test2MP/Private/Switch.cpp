@@ -26,7 +26,7 @@ void ASwitch::BeginPlay()
 	}
 }
 
-void ASwitch::ToggleSwitch()
+void ASwitch::Interact()
 {
 	if (Toggled)
 	{

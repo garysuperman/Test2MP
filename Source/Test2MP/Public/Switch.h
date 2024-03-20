@@ -22,5 +22,5 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-	void ToggleSwitch();
+	virtual void Interact() override;
 };

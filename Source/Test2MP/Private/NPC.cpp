@@ -19,14 +19,28 @@ void ANPC::BeginPlay()
 	Super::BeginPlay();
 
 	//Play Idle anim
+	Toggled = false;
 	if(OffAnim)
 		Mesh->PlayAnimation(OffAnim, true);
 }
 
-void ANPC::TalkToNPC()
+void ANPC::Interact()
 {
-	//Play Interact Anim
-	if (OnAnim)
-		Mesh->PlayAnimation(OnAnim, false);
+	if (Toggled)
+	{
+		Toggled = false;
+		if (OffAnim)
+		{
+			Mesh->PlayAnimation(OffAnim, true);
+		}
+	}
+	else
+	{
+		Toggled = true;
+		if (OnAnim)
+		{
+			Mesh->PlayAnimation(OnAnim, true);
+		}
+	}
 	
 }

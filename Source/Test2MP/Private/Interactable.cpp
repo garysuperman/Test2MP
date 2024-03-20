@@ -18,3 +18,8 @@ void AInteractable::BeginPlay()
 	
 }
 
+void AInteractable::Interact()
+{
+
+}
+
