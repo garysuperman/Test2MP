@@ -113,7 +113,16 @@ void ATest2MPCharacter::Interact()
 			//temp call toggle
 			if(AInteractable* obj = Cast<AInteractable>(Actor))
 			{
-				obj->Interact();
+				//check if server and call server rpc
+				if(HasAuthority())
+				{
+					obj->Interact();
+				}
+				else
+				{
+					// call to server
+					Server_Interact();
+				}
 			}
 
 
@@ -123,6 +132,7 @@ void ATest2MPCharacter::Interact()
 		}
 	}
 }
+
 
 void ATest2MPCharacter::Move(const FInputActionValue& Value)
 {
@@ -145,6 +155,16 @@ void ATest2MPCharacter::Move(const FInputActionValue& Value)
 		AddMovementInput(ForwardDirection, MovementVector.Y);
 		AddMovementInput(RightDirection, MovementVector.X);
 	}
+}
+
+bool ATest2MPCharacter::Server_Interact_Validate()
+{
+	return true;
+}
+
+void ATest2MPCharacter::Server_Interact_Implementation ()
+{
+	Interact();
 }
 
 void ATest2MPCharacter::Look(const FInputActionValue& Value)

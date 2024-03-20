@@ -58,6 +58,9 @@ protected:
 	/** Called for movement input */
 	void Move(const FInputActionValue& Value);
 
+	UFUNCTION(Server, Reliable, WithValidation)
+	void Server_Interact();
+
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 			

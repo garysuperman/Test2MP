@@ -13,6 +13,8 @@ ASwitch::ASwitch()
 	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeletalMeshComponent"));
 	RootComponent = Mesh;
 
+	bReplicates = true;
+
 	Toggled = true;
 }
 
