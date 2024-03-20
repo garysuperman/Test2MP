@@ -12,13 +12,20 @@ class TEST2MP_API AInteractable : public AActor
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
 	AInteractable();
 
 protected:
 
-	bool toggled;
+	UPROPERTY(EditAnywhere, Category = "Test2")
+	class USkeletalMeshComponent* Mesh;
 
-	// Called when the game starts or when spawned
+	UPROPERTY(EditAnywhere, Category = "Test2")
+	UAnimationAsset* OnAnim;
+	UPROPERTY(EditAnywhere, Category = "Test2")
+	UAnimationAsset* OffAnim;
+
+	UPROPERTY(EditAnywhere, Category = "Test2")
+	bool Toggled;
+
 	virtual void BeginPlay() override;
 };

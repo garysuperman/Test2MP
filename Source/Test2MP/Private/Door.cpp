@@ -10,10 +10,10 @@ ADoor::ADoor()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
-	DoorMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeletalMeshComponent"));
-	RootComponent = DoorMesh;
+	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeletalMeshComponent"));
+	RootComponent = Mesh;
 
-	bDoorOpen = false;
+	Toggled = false;
 }
 
 // Called when the game starts or when spawned
@@ -21,24 +21,28 @@ void ADoor::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	if (OffAnim)
+	{
+		Mesh->PlayAnimation(OffAnim, false);
+	}
 }
 
 void ADoor::ToggleDoor()
 {
-	if (bDoorOpen)
+	if (Toggled)
 	{
-		bDoorOpen = false;
-		if (CloseAnimation) 
+		Toggled = false;
+		if (OffAnim) 
 		{
-			DoorMesh->PlayAnimation(CloseAnimation, false);
+			Mesh->PlayAnimation(OffAnim, false);
 		}
 	}
 	else
 	{
-		bDoorOpen = true;
-		if (OpenAnimation)
+		Toggled = true;
+		if (OnAnim)
 		{
-			DoorMesh->PlayAnimation(OpenAnimation, false);
+			Mesh->PlayAnimation(OnAnim, false);
 		}
 	}
 }

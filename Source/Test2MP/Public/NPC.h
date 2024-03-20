@@ -5,23 +5,21 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Test2MP/Public/Interactable.h"
-#include "Door.generated.h"
-
-class UAnimationAsset;
+#include "NPC.generated.h"
 
 UCLASS()
-class TEST2MP_API ADoor : public AInteractable
+class TEST2MP_API ANPC : public AInteractable
 {
 	GENERATED_BODY()
-
+	
 public:	
 	// Sets default values for this actor's properties
-	ADoor();
+	ANPC();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:
-	void ToggleDoor();
+public:	
+	void TalkToNPC();
 };
