@@ -6,7 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Interactable.generated.h"
 
-UCLASS()
+UCLASS(ABSTRACT)
 class TEST2MP_API AInteractable : public AActor
 {
 	GENERATED_BODY()
@@ -27,11 +27,11 @@ protected:
 	UPROPERTY(ReplicatedUsing = OnRep_Interact)
 	bool Toggled;
 
-	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override {};
 
 	UFUNCTION()
-	virtual void OnRep_Interact();
+	virtual void OnRep_Interact() {};
 
 public:
-	virtual void Interact();
+	virtual void Interact() {};
 };

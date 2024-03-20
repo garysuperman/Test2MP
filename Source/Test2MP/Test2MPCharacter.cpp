@@ -109,8 +109,6 @@ void ATest2MPCharacter::Interact()
 	{
 		if (AActor* Actor = HitResult.GetActor())
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Actor Hit: %s"), *Actor->GetName());
-			//temp call toggle
 			if(AInteractable* obj = Cast<AInteractable>(Actor))
 			{
 				//check if server and call server rpc
