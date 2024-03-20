@@ -2,6 +2,7 @@
 
 
 #include "Test2MP/Public/Switch.h"
+#include <Net/UnrealNetwork.h>
 
 // Sets default values
 ASwitch::ASwitch()
@@ -12,7 +13,7 @@ ASwitch::ASwitch()
 	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeletalMeshComponent"));
 	RootComponent = Mesh;
 
-	Toggled = false;
+	Toggled = true;
 }
 
 // Called when the game starts or when spawned
@@ -21,16 +22,21 @@ void ASwitch::BeginPlay()
 	Super::BeginPlay();
 
 	if (OffAnim)
-	{
 		Mesh->PlayAnimation(OffAnim, false);
-	}
+	
 }
 
-void ASwitch::Interact()
+void ASwitch::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(ASwitch, Toggled);
+}
+
+void ASwitch::OnRep_Interact()
 {
 	if (Toggled)
 	{
-		Toggled = false;
 		if (OffAnim)
 		{
 			Mesh->PlayAnimation(OffAnim, false);
@@ -38,7 +44,6 @@ void ASwitch::Interact()
 	}
 	else
 	{
-		Toggled = true;
 		if (OnAnim)
 		{
 			Mesh->PlayAnimation(OnAnim, false);
@@ -46,3 +51,12 @@ void ASwitch::Interact()
 	}
 }
 
+void ASwitch::Interact()
+{
+	if (HasAuthority())
+	{
+		Toggled = !Toggled;
+		OnRep_Interact();
+	}
+
+}

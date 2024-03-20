@@ -24,10 +24,13 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Test2")
 	UAnimationAsset* OffAnim;
 
-	UPROPERTY(EditAnywhere, Category = "Test2")
+	UPROPERTY(ReplicatedUsing = OnRep_Interact)
 	bool Toggled;
 
-	virtual void BeginPlay() override;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+	UFUNCTION()
+	virtual void OnRep_Interact();
 
 public:
 	virtual void Interact();

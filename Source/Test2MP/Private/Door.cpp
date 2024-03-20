@@ -3,6 +3,7 @@
 
 #include "Test2MP/Public/Door.h"
 #include "Components/SkeletalMeshComponent.h"
+#include <Net/UnrealNetwork.h>
 
 // Sets default values
 ADoor::ADoor()
@@ -13,7 +14,7 @@ ADoor::ADoor()
 	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeletalMeshComponent"));
 	RootComponent = Mesh;
 
-	Toggled = false;
+	Toggled = true;
 }
 
 // Called when the game starts or when spawned
@@ -22,11 +23,17 @@ void ADoor::BeginPlay()
 	Super::BeginPlay();
 }
 
-void ADoor::Interact()
+void ADoor::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(ADoor, Toggled);
+}
+
+void ADoor::OnRep_Interact()
 {
 	if (Toggled)
 	{
-		Toggled = false;
 		if (OffAnim) 
 		{
 			Mesh->PlayAnimation(OffAnim, false);
@@ -34,11 +41,21 @@ void ADoor::Interact()
 	}
 	else
 	{
-		Toggled = true;
+		
 		if (OnAnim)
 		{
 			Mesh->PlayAnimation(OnAnim, false);
 		}
 	}
+}
+
+void ADoor::Interact()
+{
+	if(HasAuthority())
+	{
+		Toggled = !Toggled;
+		OnRep_Interact();
+	}
+	
 }
 

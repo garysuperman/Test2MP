@@ -2,6 +2,7 @@
 
 
 #include "Test2MP/Public/NPC.h"
+#include <Net/UnrealNetwork.h>
 
 // Sets default values
 ANPC::ANPC()
@@ -11,6 +12,8 @@ ANPC::ANPC()
 
 	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeletalMeshComponent"));
 	RootComponent = Mesh;
+
+	Toggled = true;
 }
 
 // Called when the game starts or when spawned
@@ -19,16 +22,22 @@ void ANPC::BeginPlay()
 	Super::BeginPlay();
 
 	//Play Idle anim
-	Toggled = false;
+	
 	if(OffAnim)
 		Mesh->PlayAnimation(OffAnim, true);
 }
 
-void ANPC::Interact()
+void ANPC::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(ANPC, Toggled);
+}
+
+void ANPC::OnRep_Interact()
 {
 	if (Toggled)
 	{
-		Toggled = false;
 		if (OffAnim)
 		{
 			Mesh->PlayAnimation(OffAnim, true);
@@ -36,11 +45,19 @@ void ANPC::Interact()
 	}
 	else
 	{
-		Toggled = true;
 		if (OnAnim)
 		{
 			Mesh->PlayAnimation(OnAnim, true);
 		}
 	}
-	
+}
+
+void ANPC::Interact()
+{
+	if (HasAuthority())
+	{
+		Toggled = !Toggled;
+		OnRep_Interact();
+	}
+
 }

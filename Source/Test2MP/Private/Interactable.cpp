@@ -2,6 +2,7 @@
 
 
 #include "Test2MP/Public/Interactable.h"
+#include <Net/UnrealNetwork.h>
 
 // Sets default values
 AInteractable::AInteractable()
@@ -11,15 +12,14 @@ AInteractable::AInteractable()
 
 }
 
-// Called when the game starts or when spawned
-void AInteractable::BeginPlay()
+void AInteractable::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
-	Super::BeginPlay();
-	
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AInteractable, Toggled);
 }
 
-void AInteractable::Interact()
-{
+void AInteractable::OnRep_Interact(){}
 
-}
+void AInteractable::Interact() {}
 
