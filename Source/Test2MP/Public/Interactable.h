@@ -16,12 +16,12 @@ public:
 
 protected:
 
-	UPROPERTY(EditAnywhere, Category = "Test2")
+	UPROPERTY(EditAnywhere, Category = "TestII")
 	class USkeletalMeshComponent* Mesh;
 
-	UPROPERTY(EditAnywhere, Category = "Test2")
+	UPROPERTY(EditAnywhere, Category = "TestII")
 	UAnimationAsset* OnAnim;
-	UPROPERTY(EditAnywhere, Category = "Test2")
+	UPROPERTY(EditAnywhere, Category = "TestII")
 	UAnimationAsset* OffAnim;
 
 	UPROPERTY(ReplicatedUsing = OnRep_Interact)

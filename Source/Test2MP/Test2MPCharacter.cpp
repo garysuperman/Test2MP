@@ -122,11 +122,6 @@ void ATest2MPCharacter::Interact()
 					Server_Interact();
 				}
 			}
-
-
-			//check for interact interface
-
-			//use if interact interface found
 		}
 	}
 }
